@@ -25,6 +25,7 @@ from openai import OpenAI
 from PIL import Image
 
 from website.models import DailyStats
+from website.slack_commands_data import SLACK_COMMANDS
 
 from .models import PRAnalysisReport
 
@@ -1117,3 +1118,7 @@ def get_default_bacon_score(model_name, is_security=False):
         score += 3
 
     return score
+
+
+def get_slack_command(name: str) -> str | None:
+    return SLACK_COMMANDS.get(name, {}).get("command")

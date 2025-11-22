@@ -17,6 +17,7 @@ from slack_sdk.errors import SlackApiError
 from slack_sdk.web import WebClient
 
 from website.models import Domain, Hunt, Issue, Project, SlackBotActivity, SlackIntegration, User
+from website.utils import get_slack_command
 
 logger = logging.getLogger(__name__)
 
@@ -368,11 +369,11 @@ def slack_commands(request):
                     }
                 )
 
-        if command == "/discover":
+        if command == get_slack_command("discover"):
             search_term = request.POST.get("text", "").strip()
             return get_project_overview(workspace_client, user_id, search_term, activity)
 
-        elif command == "/stats":
+        elif command == get_slack_command("contrib"):
             try:
                 # Get project counts by status
                 project_stats = Project.objects.values("status").annotate(count=Count("id"))
@@ -600,11 +601,11 @@ def slack_commands(request):
                 activity.save()
                 return HttpResponse(status=500)
 
-        elif command == "/gsoc25":
+        elif command == get_slack_command("gsoc25"):
             search_term = request.POST.get("text", "").strip()
             return get_gsoc_overview(workspace_client, user_id, search_term, activity, team_id)
 
-        elif command == "/blt":
+        elif command == get_slack_command("blt"):
             search_term = request.POST.get("text", "").strip()
             if not search_term:
                 # Provide guidance on how to use the /blt command
@@ -711,7 +712,7 @@ def slack_commands(request):
 
                 return response
 
-        elif command == "/help":
+        elif command == get_slack_command("help"):
             try:
                 help_message = [
                     {
@@ -746,7 +747,7 @@ def slack_commands(request):
                 activity.save()
                 return JsonResponse({"response_type": "ephemeral", "text": "Error sending help message."})
 
-        elif command == "/report":
+        elif command == get_slack_command("report"):
             if not text:
                 return JsonResponse(
                     {

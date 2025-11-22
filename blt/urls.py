@@ -278,6 +278,7 @@ from website.views.project import (
 from website.views.queue import queue_list, update_txid
 from website.views.repo import RepoListView, add_repo, refresh_repo_data
 from website.views.Simulation import dashboard, lab_detail, submit_answer, task_detail
+from website.views.slack import slack_landing_page
 from website.views.slack_handlers import slack_commands, slack_events
 from website.views.social import queue_social_view
 from website.views.staking_competitive import (
@@ -1023,6 +1024,7 @@ urlpatterns = [
     path("staking/leaderboard/", staking_leaderboard, name="staking_leaderboard"),
     path("staking/create/", create_staking_pool, name="create_staking_pool"),
     path("project/<slug:slug>/", ProjectsDetailView.as_view(), name="project_detail"),
+    path("slack/", slack_landing_page, name="slack_landing_page"),
     path("slack/events", slack_events, name="slack_events"),
     path("owasp/", TemplateView.as_view(template_name="owasp.html"), name="owasp"),
     path("discussion-rooms/", RoomsListView.as_view(), name="rooms_list"),

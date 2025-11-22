@@ -1,0 +1,397 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}OWASP BLT SlackBot{% endblock %}
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-10 space-y-10">
+    <!-- Hero / header -->
+    <section
+        class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8 flex flex-col md:flex-row gap-8 items-center">
+        <div class="flex-1 space-y-4">
+            <div class="flex items-center gap-3">
+                <div
+                    class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-400/10 border border-amber-300">
+                    <i class="fab fa-slack text-xl text-amber-500"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-semibold text-slate-900">
+                        OWASP BLT Slack Bot
+                    </h1>
+                    <p class="text-xs uppercase tracking-wide text-slate-400">
+                        OWASP Bug Logging Tool · Slack Integration
+                    </p>
+                </div>
+            </div>
+
+            <p class="text-slate-600 text-sm md:text-base max-w-xl">
+                Enhance your security workflow by discovering OWASP projects,
+                tracking platform statistics, and finding contribution
+                opportunities directly from Slack.
+            </p>
+
+            <div class="pt-1">
+                {% if slack_oauth_url %}
+                <a href="{{ slack_oauth_url }}"
+                    class="inline-flex items-center gap-2 rounded-full bg-amber-400 px-5 py-2.5 text-sm font-semibold text-slate-900 shadow hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2 transition">
+                    <i class="fab fa-slack text-base"></i>
+                    <span>Add OWASP BLT to Slack</span>
+                </a>
+                {% else %}
+                <p class="text-xs md:text-sm text-slate-500 max-w-md">
+                    Slack integration is not fully configured yet. Please
+                    contact the BLT maintainers to set
+                    <code
+                        class="px-1 py-0.5 rounded bg-slate-100 border border-slate-200 text-[0.7rem] font-mono">SLACK_CLIENT_ID</code>.
+                </p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="flex-1 w-full">
+            <div class="grid grid-cols-2 gap-3 text-xs">
+                <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                    <p class="font-semibold text-slate-800 flex items-center gap-2 mb-1">
+                        <span
+                            class="inline-flex items-center justify-center rounded-full bg-slate-900 text-slate-50 text-[0.65rem] px-2 py-0.5 font-mono">
+                            /discover
+                        </span>
+                        Discover projects
+                    </p>
+                    <p class="text-slate-500">
+                        Find OWASP and BLT projects to work on, filtered by tech
+                        stack or tags.
+                    </p>
+                </div>
+                <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                    <p class="font-semibold text-slate-800 flex items-center gap-2 mb-1">
+                        <span
+                            class="inline-flex items-center justify-center rounded-full bg-slate-900 text-slate-50 text-[0.65rem] px-2 py-0.5 font-mono">
+                            /gsoc25
+                        </span>
+                        GSoC ideas
+                    </p>
+                    <p class="text-slate-500">
+                        Browse OWASP GSoC 2025 ideas by technology, mentor or
+                        topic.
+                    </p>
+                </div>
+                <div class="rounded-xl border border-slate-200 bg-slate-50 p-3 col-span-2">
+                    <p class="font-semibold text-slate-800 flex items-center gap-2 mb-1">
+                        <span
+                            class="inline-flex items-center justify-center rounded-full bg-slate-900 text-slate-50 text-[0.65rem] px-2 py-0.5 font-mono">
+                            /blt
+                        </span>
+                        Unified OWASP command
+                    </p>
+                    <p class="text-slate-500">
+                        Look up user profiles, chapters, projects, committees,
+                        events and GSoC information from a single command.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features section -->
+    <section class="space-y-6">
+        <div class="text-center">
+            <h2 class="text-xl md:text-2xl font-semibold text-slate-900">
+                What the Slack Bot Can Help You With
+            </h2>
+            <p class="mt-2 text-sm text-slate-500 max-w-2xl mx-auto">
+                Bring OWASP BLT closer to your team: discover projects,
+                understand statistics, and guide contributors without leaving
+                Slack.
+            </p>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-3">
+            <div
+                class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col items-center text-center space-y-3">
+                <div class="rounded-full bg-amber-100 w-12 h-12 flex items-center justify-center">
+                    <i class="fas fa-search text-lg text-amber-500"></i>
+                </div>
+                <h3 class="font-semibold text-slate-900 text-sm">
+                    Find Projects
+                </h3>
+                <p class="text-xs text-slate-500">
+                    Discover OWASP projects, BLT initiatives, GSoC ideas and
+                    more using simple slash commands.
+                </p>
+            </div>
+
+            <div
+                class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col items-center text-center space-y-3">
+                <div class="rounded-full bg-blue-100 w-12 h-12 flex items-center justify-center">
+                    <i class="fas fa-chart-bar text-lg text-blue-600"></i>
+                </div>
+                <h3 class="font-semibold text-slate-900 text-sm">
+                    Track Statistics
+                </h3>
+                <p class="text-xs text-slate-500">
+                    Get a quick overview of platform statistics like project
+                    counts, issues, active users and domains.
+                </p>
+            </div>
+
+            <div
+                class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col items-center text-center space-y-3">
+                <div class="rounded-full bg-emerald-100 w-12 h-12 flex items-center justify-center">
+                    <i class="fas fa-code-branch text-lg text-emerald-600"></i>
+                </div>
+                <h3 class="font-semibold text-slate-900 text-sm">
+                    Guide Contributors
+                </h3>
+                <p class="text-xs text-slate-500">
+                    Use guided checklists to help new contributors join Slack,
+                    pick issues and coordinate with project leaders.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commands table -->
+    <section class="space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+                <h2 class="text-lg md:text-xl font-semibold text-slate-900">
+                    Available Commands
+                </h2>
+                <p class="text-xs text-slate-500">
+                    All supported slash commands exposed by the OWASP BLT Slack
+                    Bot.
+                </p>
+            </div>
+            <span
+                class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-[0.7rem] font-medium text-slate-600">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2"></span>
+                Use <code class="font-mono">/help</code> in Slack for an
+                in-channel summary
+            </span>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-slate-200 text-sm">
+                    <thead class="bg-slate-50">
+                        <tr>
+                            <th scope="col"
+                                class="px-4 py-3 text-left text-[0.7rem] font-semibold uppercase tracking-wide text-slate-500">
+                                Command
+                            </th>
+                            <th scope="col"
+                                class="px-4 py-3 text-left text-[0.7rem] font-semibold uppercase tracking-wide text-slate-500">
+                                Description
+                            </th>
+                            <th scope="col"
+                                class="px-4 py-3 text-left text-[0.7rem] font-semibold uppercase tracking-wide text-slate-500">
+                                Examples
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        {% for key, cmd in slack_commands.items %}
+                        <tr class="hover:bg-slate-50">
+                            <td class="px-4 py-3 align-top whitespace-nowrap">
+                                <span
+                                    class="inline-flex items-center rounded-full bg-slate-900 text-slate-50 px-2.5 py-1 text-[0.7rem] font-mono">
+                                    {{ cmd.command }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 align-top text-slate-700 text-xs leading-snug">
+                                {{ cmd.description }}
+                            </td>
+                            <td class="px-4 py-3 align-top text-xs text-slate-600 space-y-1">
+                                {% for example in cmd.examples %}
+                                <div
+                                    class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 font-mono text-[0.7rem]">
+                                    <span>{{ example }}</span>
+                                </div>
+                                {% if not forloop.last %}<br />{% endif %} {%
+                                endfor %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits section -->
+    <section class="grid gap-6 md:grid-cols-2 items-start">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+            <h2 class="text-lg font-semibold text-slate-900">
+                Benefits for Your Organization
+            </h2>
+            <p class="text-xs text-slate-500">
+                Integrate OWASP BLT into your existing Slack-based workflows to
+                keep security and quality visible.
+            </p>
+            <ul class="space-y-3 text-sm">
+                <li class="flex items-start gap-3">
+                    <span class="mt-1 text-emerald-500">
+                        <i class="fas fa-check-circle"></i>
+                    </span>
+                    <div>
+                        <p class="font-semibold text-slate-900 text-sm">
+                            Streamlined workflows
+                        </p>
+                        <p class="text-xs text-slate-500">
+                            Access OWASP resources, projects and statistics
+                            without context switching.
+                        </p>
+                    </div>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="mt-1 text-emerald-500">
+                        <i class="fas fa-check-circle"></i>
+                    </span>
+                    <div>
+                        <p class="font-semibold text-slate-900 text-sm">
+                            Improved collaboration
+                        </p>
+                        <p class="text-xs text-slate-500">
+                            Share project details, bug reports and contribution
+                            paths with your team in-channel.
+                        </p>
+                    </div>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="mt-1 text-emerald-500">
+                        <i class="fas fa-check-circle"></i>
+                    </span>
+                    <div>
+                        <p class="font-semibold text-slate-900 text-sm">
+                            Stay updated
+                        </p>
+                        <p class="text-xs text-slate-500">
+                            Keep an eye on OWASP events, initiatives and GSoC
+                            opportunities through simple commands.
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="bg-slate-50 rounded-2xl border border-slate-200 p-6 space-y-4">
+            <h3 class="text-sm font-semibold text-slate-900">
+                Great for onboarding and leadership
+            </h3>
+            <ul class="space-y-3 text-sm">
+                <li class="flex items-start gap-3">
+                    <span class="mt-1 text-amber-500">
+                        <i class="fas fa-user-plus"></i>
+                    </span>
+                    <div>
+                        <p class="font-semibold text-slate-900 text-sm">
+                            Easy onboarding
+                        </p>
+                        <p class="text-xs text-slate-500">
+                            Help new contributors join the right channels, read
+                            pinned messages and pick their first tasks.
+                        </p>
+                    </div>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="mt-1 text-blue-500">
+                        <i class="fas fa-bolt"></i>
+                    </span>
+                    <div>
+                        <p class="font-semibold text-slate-900 text-sm">
+                            Real-time data
+                        </p>
+                        <p class="text-xs text-slate-500">
+                            Query live platform statistics whenever stakeholders
+                            ask “how is BLT doing?”.
+                        </p>
+                    </div>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="mt-1 text-emerald-500">
+                        <i class="fas fa-route"></i>
+                    </span>
+                    <div>
+                        <p class="font-semibold text-slate-900 text-sm">
+                            Quick opportunities
+                        </p>
+                        <p class="text-xs text-slate-500">
+                            Quickly surface OWASP and BLT contribution
+                            opportunities aligned to your team’s skills.
+                        </p>
+                    </div>
+                </li>
+            </ul>
+
+            {% if slack_oauth_url %}
+            <div class="pt-2">
+                <a href="{{ slack_oauth_url }}"
+                    class="inline-flex items-center gap-2 rounded-full bg-amber-400 px-4 py-2 text-xs font-semibold text-slate-900 shadow hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2 transition">
+                    <i class="fab fa-slack text-sm"></i>
+                    <span>Add OWASP BLT to Slack</span>
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Integration steps -->
+    <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8 space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+                <h2 class="text-lg md:text-xl font-semibold text-slate-900">
+                    Integration Process
+                </h2>
+                <p class="text-xs text-slate-500">
+                    Get the OWASP BLT Slack Bot running in just a few steps.
+                </p>
+            </div>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-3 text-center text-sm">
+            <div class="flex flex-col items-center space-y-3">
+                <div
+                    class="flex items-center justify-center rounded-full bg-slate-900 text-slate-50 w-10 h-10 text-sm font-semibold shadow">
+                    1
+                </div>
+                <h3 class="font-semibold text-slate-900 text-sm">
+                    Click “Add to Slack”
+                </h3>
+                <p class="text-xs text-slate-500 max-w-xs">
+                    Start the installation flow from this page or from the Slack
+                    app directory entry.
+                </p>
+            </div>
+
+            <div class="flex flex-col items-center space-y-3">
+                <div
+                    class="flex items-center justify-center rounded-full bg-slate-900 text-slate-50 w-10 h-10 text-sm font-semibold shadow">
+                    2
+                </div>
+                <h3 class="font-semibold text-slate-900 text-sm">
+                    Authorize access
+                </h3>
+                <p class="text-xs text-slate-500 max-w-xs">
+                    Review the permissions requested for your workspace and
+                    approve them.
+                </p>
+            </div>
+
+            <div class="flex flex-col items-center space-y-3">
+                <div
+                    class="flex items-center justify-center rounded-full bg-slate-900 text-slate-50 w-10 h-10 text-sm font-semibold shadow">
+                    3
+                </div>
+                <h3 class="font-semibold text-slate-900 text-sm">
+                    Start using commands
+                </h3>
+                <p class="text-xs text-slate-500 max-w-xs">
+                    Use the bot in any channel where it’s installed and try
+                    <code
+                        class="px-1 py-0.5 rounded bg-slate-100 border border-slate-200 text-[0.7rem] font-mono">/help</code>
+                    to explore available commands.
+                </p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
