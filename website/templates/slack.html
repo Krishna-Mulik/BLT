@@ -206,8 +206,10 @@
                                     class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 font-mono text-[0.7rem]">
                                     <span>{{ example }}</span>
                                 </div>
-                                {% if not forloop.last %}<br />{% endif %} {%
-                                endfor %}
+                                {% if not forloop.last %}
+                                <br />
+                                {% endif %}
+                                {% endfor %}
                             </td>
                         </tr>
                         {% endfor %}

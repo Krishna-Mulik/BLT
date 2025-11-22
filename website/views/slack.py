@@ -26,4 +26,4 @@ def slack_landing_page(request):
         )
 
     context = {"slack_oauth_url": slack_oauth_url, "slack_commands": SLACK_COMMANDS}
-    return render(request, "slack/index.html", context)
+    return render(request, "slack.html", context)
